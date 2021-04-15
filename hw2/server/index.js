@@ -53,7 +53,7 @@ app.get('/decades', routes.getDecades);
 app.get('/decades/:decade', routes.bestGenresPerDecade);
 
 
-
+app.get('/test', routes.getUnderprivileged);
 
 
 

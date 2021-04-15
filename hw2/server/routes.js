@@ -12,7 +12,16 @@ var connection = mysql.createPool(config);
 /* ---- Q1a (Dashboard) ---- */
 function getAllGenres(req, res) {
   var query = `
-  SELECT DISTINCT genre FROM Genres;
+  WITH underprivileged AS(
+    SELECT PovertyEstimates.FIPS_TXT
+    FROM PovertyEstimates
+    WHERE PovertyEstimates.PCTPOVALL_2019 > 30
+    )
+    SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
+    FROM cases
+    RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
+    RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
+    WHERE cases.date='2020-12-01';
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -51,24 +60,16 @@ function getRecs(req, res) {
   console.log(req);
   var input = req.params.recc;
   var query = `
-  WITH Temp AS (SELECT genre
-    FROM Genres
-    JOIN Movies
-    ON Genres.movie_id = Movies.id
-    WHERE Movies.title='${input}')
-    
-    SELECT Movies.title, Movies.id, Movies.rating, Movies.vote_count
-    FROM Movies
-    WHERE Movies.title!= '${input}' AND Movies.id IN (
-    SELECT Movies.id
-    FROM Movies
-    JOIN Genres ON Genres.movie_id = Movies.id
-    RIGHT JOIN Temp ON Genres.genre = Temp.genre
-    GROUP BY Movies.id
-    HAVING COUNT(*)=(SELECT COUNT(*) FROM Temp)
+  WITH underprivileged AS(
+    SELECT PovertyEstimates.FIPS_TXT
+    FROM PovertyEstimates
+    WHERE PovertyEstimates.PCTPOVALL_2019 > 30
     )
-    ORDER BY rating DESC, vote_count DESC
-    LIMIT 5;
+    SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
+    FROM cases
+    RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
+    RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
+    WHERE cases.date='${input}';
     `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -124,11 +125,34 @@ ORDER BY avg_rating DESC, genre ASC;
   });
 };
 
+function getUnderprivileged(req, res) {
+  var query = `
+  WITH underprivileged AS(
+    SELECT PovertyEstimates.FIPS_TXT
+    FROM PovertyEstimates
+    WHERE PovertyEstimates.PCTPOVALL_2019 > 30
+    )
+    SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
+    FROM cases
+    RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
+    RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
+    WHERE cases.date='2020-12-01';
+  `;
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+};
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllGenres: getAllGenres,
   getTopInGenre: getTopInGenre,
   getRecs: getRecs,
   getDecades: getDecades,
-  bestGenresPerDecade: bestGenresPerDecade
+  bestGenresPerDecade: bestGenresPerDecade,
+  getUnderprivileged: getUnderprivileged
 }

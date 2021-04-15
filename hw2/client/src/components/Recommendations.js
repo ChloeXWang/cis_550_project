@@ -38,7 +38,7 @@ export default class Recommendations extends React.Component {
 				// Print the error if there is one.
 				console.log(err);
 			}).then(topList => {
-				let topListDivs = topList.map((i) => <RecommendationsRow title={i.title} id={i.id} rating={i.rating} vote_count={i.vote_count} />);
+				let topListDivs = topList.map((i) => <RecommendationsRow county={i.county} infection_rate={i.infection_rate} death_rate={i.death_rate} />);
 				this.setState({
 					recMovies: topListDivs
 				});
@@ -64,19 +64,18 @@ export default class Recommendations extends React.Component {
 
 				<div className="container recommendations-container">
 					<div className="jumbotron">
-						<div className="h5">Recommendations</div>
+						<div className="h5">Infection and Death Stats (Q1)</div>
 						<br></br>
 						<div className="input-container">
-							<input type='text' placeholder="Enter Movie Name" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input" />
+							<input type='text' placeholder="dddd-mm-dd" value={this.state.movieName} onChange={this.handleMovieNameChange} id="movieName" className="movie-input" />
 							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
 						<div className="header-container">
-							<div className="h6">You may like ...</div>
+							<div className="h6">Enter date.</div>
 							<div className="headers">
-								<div className="header"><strong>Title</strong></div>
-								<div className="header"><strong>Movie ID</strong></div>
-								<div className="header"><strong>Rating</strong></div>
-								<div className="header"><strong>Vote Count</strong></div>
+								<div className="header"><strong>county</strong></div>
+								<div className="header"><strong>infection_rate</strong></div>
+								<div className="header"><strong>death_rate</strong></div>
 							</div>
 						</div>
 						<div className="results-container" id="results">
