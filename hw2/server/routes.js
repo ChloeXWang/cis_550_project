@@ -58,18 +58,21 @@ function getTopInGenre(req, res) {
 /* ---- Q2 (Recommendations) ---- */
 function getRecs(req, res) {
   console.log(req);
-  var input = req.params.recc;
+  var input_recc = req.params.recc;
+  console.log(input_recc);
+  var input_percent = req.params.percent;
+  console.log(input_percent);
   var query = `
   WITH underprivileged AS(
     SELECT PovertyEstimates.FIPS_TXT
     FROM PovertyEstimates
-    WHERE PovertyEstimates.PCTPOVALL_2019 > 30
+    WHERE PovertyEstimates.PCTPOVALL_2019 > '${input_percent}'
     )
     SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
     FROM cases
     RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
     RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
-    WHERE cases.date='${input}';
+    WHERE cases.date='${input_recc}';
     `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);

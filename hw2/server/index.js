@@ -36,7 +36,7 @@ app.get('/genres/:genre', routes.getTopInGenre);
 
 
 /* ---- Q2 (Recommendations) ---- */
-app.get('/recommendations/:recc', routes.getRecs);
+app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
 
