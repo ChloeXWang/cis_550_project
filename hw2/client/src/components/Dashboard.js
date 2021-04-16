@@ -2,7 +2,7 @@ import React from 'react';
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
-import GenreButton from './GenreButton';
+//import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
 
 export default class Dashboard extends React.Component {
@@ -16,14 +16,14 @@ export default class Dashboard extends React.Component {
       movies: []
     }
 
-    this.showMovies = this.showMovies.bind(this);
+    //this.showMovies = this.showMovies.bind(this);
   }
 
 
   /* ---- Q1b (Dashboard) ---- */
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
-  showMovies(genre) {
-    fetch("http://localhost:8081/genres/" + genre,
+  componentDidMount() {
+    fetch("http://localhost:8081/genres/",
       {
         method: 'GET' // The type of HTTP request.
       }).then(res => {
@@ -34,7 +34,7 @@ export default class Dashboard extends React.Component {
         // Print the error if there is one.
         console.log(err);
       }).then(topList => {
-        let topListDivs = topList.map((i) => <DashboardMovieRow title={i.title} rating={i.rating} vote_count={i.vote_count} />);
+        let topListDivs = topList.map((object, i) => <DashboardMovieRow state={object.state} date={object.date} cases={object.cases} />);
         this.setState({
           movies: topListDivs
         });
@@ -63,7 +63,7 @@ export default class Dashboard extends React.Component {
           <div className="jumbotron">
             <div className="movies-container">
               <div className="movies-header">
-                <div className="header"><strong>State</strong></div>
+                <div className="header-lg"><strong>State</strong></div>
                 <div className="header"><strong>Date</strong></div>
                 <div className="header"><strong>Number of Cases</strong></div>
               </div>
