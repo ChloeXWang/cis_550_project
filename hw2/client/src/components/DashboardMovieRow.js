@@ -11,9 +11,9 @@ export default class DashboardMovieRow extends React.Component {
 	render() {
 		return (
 			<div className="movie">
-				<div className="title">{this.props.title}</div>
-				<div className="rating">{this.props.rating}</div>
-				<div className="votes">{this.props.vote_count}</div>
+				<div className="state">{this.props.state}</div>
+				<div className="date">{this.props.date}</div>
+				<div className="cases">{this.props.cases}</div>
 			</div>
 		);
 	}

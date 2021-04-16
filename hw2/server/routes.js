@@ -35,16 +35,16 @@ function getAllGenres(req, res) {
 
 /* ---- Q1b (Dashboard) ---- */
 function getTopInGenre(req, res) {
-  var input = req.params.genre;
-  console.log('hi');
-  console.log(req);
   var query = `
-  SELECT title, rating, vote_count
-  FROM Movies 
-  JOIN Genres ON Movies.id=Genres.movie_id 
-  WHERE Genres.genre= '${input}'
-  ORDER BY rating DESC, vote_count DESC 
-  LIMIT 10;
+  WITH stateCases AS(
+    SELECT state, date, SUM(Cases) AS cases
+    FROM cases
+    GROUP BY state, date
+    ORDER BY cases DESC, state
+    )
+    SELECT state, date, MAX(cases)
+    FROM stateCases
+    GROUP BY state
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
