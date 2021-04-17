@@ -4,6 +4,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 //import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
+import { Table, Tag, Space } from 'antd';
+
+const columns = [
+  {
+    title: 'State',
+    dataIndex: 'state',
+    key: 'state',
+    render: text => <a>{text}</a>,
+  },
+  {
+    title: 'Date',
+    dataIndex: 'date',
+    key: 'date',
+  },
+  {
+    title: 'Cases',
+    dataIndex: 'cases',
+    key: 'cases',
+  },
+];
+
+const data = [
+  {
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park',
+  },
+  {
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  },
+  {
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+];
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -34,7 +72,9 @@ export default class Dashboard extends React.Component {
         // Print the error if there is one.
         console.log(err);
       }).then(topList => {
-        let topListDivs = topList.map((object, i) => <DashboardMovieRow state={object.state} date={object.date} cases={object.cases} />);
+        //let topListDivs = JSON.parse(JSON.stringify(topList));
+        let topListDivs = topList.map((object, i) => <DashboardMovieRow key={i} state={object.state} date={object.date} cases={object.cases} />);
+        console.log(topListDivs)
         this.setState({
           movies: topListDivs
         });
@@ -62,6 +102,7 @@ export default class Dashboard extends React.Component {
           <br></br>
           <div className="jumbotron">
             <div className="movies-container">
+              <Table columns={columns} dataSource={this.state.movies} />
               <div className="movies-header">
                 <div className="header-lg"><strong>State</strong></div>
                 <div className="header"><strong>Date</strong></div>

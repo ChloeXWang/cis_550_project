@@ -43,6 +43,7 @@ export default class Recommendations extends React.Component {
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
 		this.handlePercentChange = this.handlePercentChange.bind(this);
 		this.submitMovie = this.submitMovie.bind(this);
+		this.disabledDate = this.disabledDate.bind(this);
 	}
 
 	handleMovieNameChange(date, dateString) {
@@ -58,6 +59,22 @@ export default class Recommendations extends React.Component {
 			//movieName: e.target.value
 			percent: value
 		});
+	}
+
+	disabledDate(current) {
+		console.log(current);
+		return current && current < moment().endOf('day');
+		let start = moment('2020-11-00').format(dateFormat);
+		let end = moment('2021-04-00').format(dateFormat);
+		if (current < moment(start)) {
+			return true;
+		}
+		else if (current > moment(end)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/* ---- Q2 (Recommendations) ---- */
@@ -108,7 +125,7 @@ export default class Recommendations extends React.Component {
 						<div className="h6">Enter a date between Dec 2020 and Feb 2021.</div>
 						<div className="input-container">
 							<Space direction="vertical">
-								<DatePicker onChange={this.handleMovieNameChange} id="movieName" className="movie-input" disabledDate={disabledDate} />
+								<DatePicker onChange={this.handleMovieNameChange} id="movieName" className="movie-input" disabledDate={this.disabledDate} />
 							</Space>
 							<InputNumber min={1} max={50} defaultValue={this.state.percent} onChange={this.handlePercentChange} />
 							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
