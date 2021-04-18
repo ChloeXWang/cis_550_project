@@ -11,37 +11,25 @@ const columns = [
     title: 'State',
     dataIndex: 'state',
     key: 'state',
-    render: text => <a>{text}</a>,
+    sorter: (a, b) => a.state.localeCompare(b.state),
+    //TODO: insert a link and have another route to render a new page
+    render: text => <a href="/recommendations">{text}</a>,
   },
   {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
+    //TODO: change date format
   },
   {
     title: 'Cases',
-    dataIndex: 'cases',
-    key: 'cases',
+    dataIndex: 'MAX(cases)',
+    key: 'MAX(cases)',
+    //TODO: rename column in the query in the router
+    //sorter: (a, b) => a.MAX(cases) - b.MAX(cases),
   },
 ];
 
-const data = [
-  {
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-];
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -73,10 +61,9 @@ export default class Dashboard extends React.Component {
         console.log(err);
       }).then(topList => {
         //let topListDivs = JSON.parse(JSON.stringify(topList));
-        let topListDivs = topList.map((object, i) => <DashboardMovieRow key={i} state={object.state} date={object.date} cases={object.cases} />);
-        console.log(topListDivs)
+        console.log(topList);
         this.setState({
-          movies: topListDivs
+          movies: topList
         });
       }, err => {
         // Print the error if there is one.
@@ -109,7 +96,6 @@ export default class Dashboard extends React.Component {
                 <div className="header"><strong>Number of Cases</strong></div>
               </div>
               <div className="results-container" id="results">
-                {this.state.movies}
               </div>
             </div>
           </div>

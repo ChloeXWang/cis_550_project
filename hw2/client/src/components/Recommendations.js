@@ -8,10 +8,33 @@ import 'antd/dist/antd.css';
 import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import { InputNumber } from 'antd';
+import { Table, Tag} from 'antd';
 
 //const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
-
+const columns = [
+  {
+    title: 'County',
+    dataIndex: 'county',
+    key: 'county',
+    sorter: (a, b) => a.county.localeCompare(b.county),
+    //TODO: insert a link and have another route to render a new page
+    render: text => <a href="/recommendations">{text}</a>,
+  },
+  {
+    title: 'Infection Rate',
+    dataIndex: 'infection_rate',
+    key: 'infection_rate',
+	sorter: (a, b) => a.infection_rate - b.infection_rate,
+  },
+  {
+    title: 'Death Rate',
+    dataIndex: 'death_rate',
+    key: 'death_rate',
+    //TODO: rename column in the query in the router
+    sorter: (a, b) => a.death_rate - b.death_rate,
+  },
+];
 
 function disabledDate(current) {
 	let start = moment('2020-11-00').format(dateFormat);
@@ -62,8 +85,7 @@ export default class Recommendations extends React.Component {
 	}
 
 	disabledDate(current) {
-		console.log(current);
-		return current && current < moment().endOf('day');
+		//return current && current < moment().endOf('day');
 		let start = moment('2020-11-00').format(dateFormat);
 		let end = moment('2021-04-00').format(dateFormat);
 		if (current < moment(start)) {
@@ -94,9 +116,9 @@ export default class Recommendations extends React.Component {
 				// Print the error if there is one.
 				console.log(err);
 			}).then(topList => {
-				let topListDivs = topList.map((i) => <RecommendationsRow county={i.county} infection_rate={i.infection_rate} death_rate={i.death_rate} />);
+				//let topListDivs = topList.map((i) => <RecommendationsRow county={i.county} infection_rate={i.infection_rate} death_rate={i.death_rate} />);
 				this.setState({
-					recMovies: topListDivs
+					recMovies: topList
 				});
 			}, err => {
 				// Print the error if there is one.
@@ -127,18 +149,13 @@ export default class Recommendations extends React.Component {
 							<Space direction="vertical">
 								<DatePicker onChange={this.handleMovieNameChange} id="movieName" className="movie-input" disabledDate={this.disabledDate} />
 							</Space>
-							<InputNumber min={1} max={50} defaultValue={this.state.percent} onChange={this.handlePercentChange} />
+							<InputNumber min={1} max={100} defaultValue={this.state.percent} onChange={this.handlePercentChange} />
 							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
 						<div className="header-container">
-							<div className="headers">
-								<div className="header"><strong>County</strong></div>
-								<div className="header"><strong>Infection Rate</strong></div>
-								<div className="header"><strong>Death Rate</strong></div>
-							</div>
+						<Table columns={columns} dataSource={this.state.recMovies} />
 						</div>
 						<div className="results-container" id="results">
-							{this.state.recMovies}
 						</div>
 					</div>
 				</div>
