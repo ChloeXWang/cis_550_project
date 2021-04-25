@@ -28,7 +28,7 @@ app.get('/worstday', routes.getWorstDay);
 
 /* ---- Q1b (Dashboard) ---- */
 //app.get('/genres/:genre', () => { }); // Hint: Replace () => {} with the appropriate route handler.
-app.get('/genres/:genre', routes.getTopInGenre);
+//app.get('/genres/:genre', routes.getTopInGenre);
 
 
 

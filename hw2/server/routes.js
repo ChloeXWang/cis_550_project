@@ -208,7 +208,7 @@ function getTopN(req, res) {
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllGenres: getAllGenres,
-  getTopInGenre: getTopInGenre,
+  getWorstDay: getWorstDay,
   getRecs: getRecs,
   getDecades: getDecades,
   bestGenresPerDecade: bestGenresPerDecade,
