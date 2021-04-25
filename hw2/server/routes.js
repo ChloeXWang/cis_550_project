@@ -42,7 +42,7 @@ function getTopInGenre(req, res) {
     GROUP BY state, date
     ORDER BY cases DESC, state
     )
-    SELECT state, date, MAX(cases)
+    SELECT state, date, MAX(cases) AS cases
     FROM stateCases
     GROUP BY state
   `;
