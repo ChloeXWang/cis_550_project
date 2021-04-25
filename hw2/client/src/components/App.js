@@ -8,6 +8,7 @@ import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
 import TopN from './TopN';
+import { OmitProps } from 'antd/lib/transfer/ListBody';
 
 export default class App extends React.Component {
 
@@ -20,7 +21,14 @@ export default class App extends React.Component {
 							exact
 							path="/"
 							render={() => (
-								<Dashboard />
+								<Dashboard/>
+							)}
+						/>
+						<Route
+							exact
+							path="/:state"
+							render={(props) => (
+								<Dashboard state = {props.match.params.state}/>
 							)}
 						/>
 						<Route
