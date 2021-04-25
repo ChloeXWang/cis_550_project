@@ -84,14 +84,18 @@ function getRecs(req, res) {
 };
 
 /* ---- (Best Genres) ---- */
-function getDecades(req, res) {
+function getStateCounty(req, res) {
+  var state = req.params.state
   var query = `
-    SELECT DISTINCT (FLOOR(year/10)*10) AS decade
-    FROM (
-      SELECT DISTINCT release_year as year
-      FROM Movies
-      ORDER BY release_year
-    ) y
+    WITH stateCases AS(
+      SELECT date, county, state, cases, deaths
+      FROM cases
+      WHERE state = '${state}'
+    )
+    SELECT county, MAX(date) AS date, MAX(Cases) AS cases, MAX(deaths) AS deaths
+    FROM stateCases
+    GROUP BY county
+    ORDER BY cases DESC
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -210,7 +214,7 @@ module.exports = {
   getAllGenres: getAllGenres,
   getWorstDay: getWorstDay,
   getRecs: getRecs,
-  getDecades: getDecades,
+  getStateCounty: getStateCounty,
   bestGenresPerDecade: bestGenresPerDecade,
   getUnderprivileged: getUnderprivileged,
   getTopN: getTopN

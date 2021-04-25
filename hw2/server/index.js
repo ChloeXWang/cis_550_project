@@ -28,7 +28,7 @@ app.get('/worstday', routes.getWorstDay);
 
 /* ---- Q1b (Dashboard) ---- */
 //app.get('/genres/:genre', () => { }); // Hint: Replace () => {} with the appropriate route handler.
-//app.get('/genres/:genre', routes.getTopInGenre);
+app.get('/state/:state', routes.getStateCounty);
 
 
 
@@ -42,7 +42,7 @@ app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
 /* ---- (Best Genre) ---- */
-app.get('/decades', routes.getDecades);
+//app.get('/decades', routes.getDecades);
 
 
 
