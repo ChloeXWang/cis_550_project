@@ -150,6 +150,61 @@ function getUnderprivileged(req, res) {
   });
 };
 
+/* ---- Query 4 ---- */
+function getTopN(req, res) {
+  ///test/:degree/:unemp/:pop/:topn
+  //console.log(req);
+  var input_degree = req.params.degree;
+  //console.log(input_recc);
+  var input_unemp = req.params.unemp;
+  var input_pop = req.params.pop;
+  var input_topn = req.params.topn;
+  //console.log(input_percent);
+  var query = `
+  WITH eligibleCounties AS (
+    SELECT u.FIPS_TXT AS ecounties, UnEmployement_Rate_2019, p.POP_ESTIMATE_2019
+    FROM UnEmployement u JOIN PopulationEstimates p ON u.FIPS_TXT=p.FIPS_TXT
+    WHERE UnEmployement_Rate_2019 < '${input_unemp}' AND POP_ESTIMATE_2019 > '${input_pop}'
+    ),
+    countyDeaths AS (
+    SELECT fips, SUM(deaths) AS allDeaths
+    FROM covid19Cases
+    GROUP BY fips
+    )
+    SELECT fips, allDeaths, Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18
+    FROM eligibleCounties e JOIN countyDeaths c ON e.ecounties = c.fips
+      JOIN Education ON e.ecounties = Education.FIPS_CODE
+      ORDER BY allDeaths
+      LIMIT '${input_topn}';
+    `;
+  var query = `
+  WITH eligibleCounties AS (
+    SELECT u.FIPS_TXT AS ecounties, UnEmployement_Rate_2019 as unemp, p.POP_ESTIMATE_2019 as pop, e.Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18 as degree
+    FROM UnEmployement u JOIN PopulationEstimates p ON u.FIPS_TXT=p.FIPS_TXT
+    JOIN Education e ON u.FIPS_TXT = e.FIPS_CODE
+    WHERE UnEmployement_Rate_2019 < '${input_unemp}' 
+    AND POP_ESTIMATE_2019 > '${input_pop}' 
+    AND Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18 > '${input_degree}'
+    ),
+    countyDeaths AS (
+    SELECT fips, SUM(deaths) AS allDeaths
+    FROM covid19Cases
+    GROUP BY fips
+    )
+    SELECT Area_Name as county, STATE as state, allDeaths, pop, degree, unemp
+    FROM eligibleCounties e JOIN countyDeaths c ON e.ecounties = c.fips
+    JOIN county r ON e.ecounties = r.FIPS_TXT
+    ORDER BY allDeaths ASC;
+    `;
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+};
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllGenres: getAllGenres,
@@ -157,5 +212,6 @@ module.exports = {
   getRecs: getRecs,
   getDecades: getDecades,
   bestGenresPerDecade: bestGenresPerDecade,
-  getUnderprivileged: getUnderprivileged
+  getUnderprivileged: getUnderprivileged,
+  getTopN: getTopN
 }

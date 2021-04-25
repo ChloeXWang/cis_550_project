@@ -7,6 +7,7 @@ import {
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
+import TopN from './TopN';
 
 export default class App extends React.Component {
 
@@ -39,6 +40,12 @@ export default class App extends React.Component {
 							path="/bestgenres"
 							render={() => (
 								<BestGenres />
+							)}
+						/>
+						<Route
+							path="/test"
+							render={() => (
+								<TopN />
 							)}
 						/>
 					</Switch>

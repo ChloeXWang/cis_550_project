@@ -35,7 +35,7 @@ app.get('/genres/:genre', routes.getTopInGenre);
 
 
 
-/* ---- Q2 (Recommendations) ---- */
+/* ---- Query 2 ---- */
 app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
@@ -53,7 +53,8 @@ app.get('/decades', routes.getDecades);
 app.get('/decades/:decade', routes.bestGenresPerDecade);
 
 
-app.get('/test', routes.getUnderprivileged);
+/* ---- Query 4 ---- */
+app.get('/test/:degree/:unemp/:pop/:topn', routes.getTopN);
 
 
 
