@@ -35,10 +35,9 @@ export default class Dashboard extends React.Component {
     super(props);
     // The state maintained by this React Component.
     this.state = {
-      movies: []
+      rows: []
     }
   }
-
 
   /* ---- Q1b (Dashboard) ---- */
 
@@ -57,7 +56,7 @@ export default class Dashboard extends React.Component {
         //let topListDivs = JSON.parse(JSON.stringify(topList));
         console.log(topList);
         this.setState({
-          movies: topList
+          rows: topList
         });
       }, err => {
         // Print the error if there is one.
@@ -80,7 +79,7 @@ export default class Dashboard extends React.Component {
           <br></br>
           <div className="jumbotron">
             <div className="movies-container">
-              <Table columns={columns} dataSource={this.state.movies} />
+              <Table columns={columns} dataSource={this.state.rows} />
             </div>
           </div>
         </div>
