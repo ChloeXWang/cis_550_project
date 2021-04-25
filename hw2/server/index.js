@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* ---- (Dashboard) ---- */
 // The route localhost:8081/genres is registered to the function
 // routes.getAllGenres, specified in routes.js.
-app.get('/genres', routes.getTopInGenre);
+app.get('/worstday', routes.getWorstDay);
 
 
 

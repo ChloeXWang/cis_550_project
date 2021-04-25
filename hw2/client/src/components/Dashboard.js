@@ -42,7 +42,7 @@ export default class Dashboard extends React.Component {
   /* ---- Q1b (Dashboard) ---- */
 
   componentDidMount() {
-    fetch("http://localhost:8081/genres/",
+    fetch("http://localhost:8081/worstday/",
       {
         method: 'GET' // The type of HTTP request.
       }).then(res => {

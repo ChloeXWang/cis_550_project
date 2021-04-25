@@ -34,7 +34,7 @@ function getAllGenres(req, res) {
 
 
 /* ---- Q1b (Dashboard) ---- */
-function getTopInGenre(req, res) {
+function getWorstDay(req, res) {
   var query = `
   WITH stateCases AS(
     SELECT state, date, SUM(Cases) AS cases
