@@ -2,8 +2,6 @@ import React from 'react';
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
-//import GenreButton from './GenreButton';
-import DashboardMovieRow from './DashboardMovieRow';
 import { Table, Tag, Space } from 'antd';
 
 const columns = [
@@ -20,13 +18,14 @@ const columns = [
     dataIndex: 'date',
     key: 'date',
     //TODO: change date format
+    //render: text => text.format("YYYY-MM-DD"),
   },
   {
     title: 'Cases',
-    dataIndex: 'MAX(cases)',
-    key: 'MAX(cases)',
+    dataIndex: 'cases',
+    key: 'cases',
     //TODO: rename column in the query in the router
-    //sorter: (a, b) => a.MAX(cases) - b.MAX(cases),
+    sorter: (a, b) => a.cases - b.cases,
   },
 ];
 
@@ -34,20 +33,15 @@ const columns = [
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
-    // The state maintained by this React Component. This component maintains the list of genres,
-    // and a list of movies for a specified genre.
+    // The state maintained by this React Component.
     this.state = {
-      genres: [],
       movies: []
     }
-
-    //this.showMovies = this.showMovies.bind(this);
   }
 
 
   /* ---- Q1b (Dashboard) ---- */
-  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
+
   componentDidMount() {
     fetch("http://localhost:8081/genres/",
       {
@@ -81,22 +75,12 @@ export default class Dashboard extends React.Component {
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Worst Covid Day Per State</div>
-            <div className="genres-container">
-              {this.state.genres}
-            </div>
           </div>
 
           <br></br>
           <div className="jumbotron">
             <div className="movies-container">
               <Table columns={columns} dataSource={this.state.movies} />
-              <div className="movies-header">
-                <div className="header-lg"><strong>State</strong></div>
-                <div className="header"><strong>Date</strong></div>
-                <div className="header"><strong>Number of Cases</strong></div>
-              </div>
-              <div className="results-container" id="results">
-              </div>
             </div>
           </div>
         </div>
