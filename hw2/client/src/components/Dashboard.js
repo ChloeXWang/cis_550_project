@@ -3,6 +3,7 @@ import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import { Table, Tag, Space } from 'antd';
+import moment from 'moment';
 
 const columns = [
   {
@@ -10,15 +11,14 @@ const columns = [
     dataIndex: 'state',
     key: 'state',
     sorter: (a, b) => a.state.localeCompare(b.state),
-    //TODO: insert a link and have another route to render a new page
-    render: text => <a href="/recommendations">{text}</a>,
+    render: (text, record) => <a href={"/state/" + record.state} >{text}</a>,
   },
   {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
     //TODO: change date format
-    //render: text => text.format("YYYY-MM-DD"),
+    render: text => moment(text).format("MM-DD-YYYY"),
   },
   {
     title: 'Cases',
