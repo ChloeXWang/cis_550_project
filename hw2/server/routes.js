@@ -57,31 +57,41 @@ function getWorstDay(req, res) {
 
 /* ---- Q2 (Recommendations) ---- */
 function getRecs(req, res) {
-  console.log(req);
-  var input_recc = req.params.recc;
-  console.log(input_recc);
-  var input_percent = req.params.percent;
-  console.log(input_percent);
-  var query = `
-  WITH underprivileged AS(
-    SELECT PovertyEstimates.FIPS_TXT
-    FROM PovertyEstimates
-    WHERE PovertyEstimates.PCTPOVALL_2019 > '${input_percent}'
-    )
-    SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
-    FROM cases
-    RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
-    RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
-    WHERE cases.date='${input_recc}';
-    `;
-  connection.query(query, function (err, rows, fields) {
-    if (err) console.log(err);
-    else {
-      console.log(rows);
-      res.json(rows);
-    }
-  });
+    console.log(req);
+    var input_recc = req.params.recc;
+    console.log(input_recc);
+    var input_percent = req.params.percent;
+    console.log(input_percent);
+    var query = `
+    WITH underprivileged AS(
+      SELECT PovertyEstimates.FIPS_TXT
+      FROM PovertyEstimates
+      WHERE PovertyEstimates.PCTPOVALL_2019 > '${input_percent}'
+      ),
+      worstCounties AS(
+            SELECT fips, SUM(cases) as totalCases
+            FROM covid19Cases
+            GROUP BY fips
+            ORDER BY totalCases DESC
+            ),
+        worst AS(SELECT * FROM worstCounties w 
+        JOIN Education e ON w.fips = e.FIPS_CODE
+        JOIN  UnEmployement u ON w.fips = u.FIPS_TXT )
+        SELECT worst.*,cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
+        FROM worst,cases
+        RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
+        RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
+        WHERE cases.date='${input_recc}'LIMIT 80;
+      `;
+    connection.query(query, function(err, rows, fields) {
+        if (err) console.log(err);
+        else {
+            console.log(rows);
+            res.json(rows);
+        }
+    });
 };
+
 
 /* ---- (Best Genres) ---- */
 function getStateCounty(req, res) {
@@ -214,6 +224,8 @@ module.exports = {
   getAllGenres: getAllGenres,
   getWorstDay: getWorstDay,
   getRecs: getRecs,
+  getTopInGenre: getTopInGenre,
+  getDecades: getDecades,
   getStateCounty: getStateCounty,
   bestGenresPerDecade: bestGenresPerDecade,
   getUnderprivileged: getUnderprivileged,
