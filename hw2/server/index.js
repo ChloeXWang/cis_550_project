@@ -36,7 +36,11 @@ app.get('/worstday/:state', routes.getStateCounty);
 
 
 /* ---- Query 2 ---- */
-app.get('/recommendations/:recc/:percent', routes.getRecs);
+app.get('/query2/:recc/:percent', routes.getRecs);
+
+
+
+app.get('/query2/:recc', routes.getRecs);
 
 
 
