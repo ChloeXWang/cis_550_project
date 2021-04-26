@@ -2,8 +2,9 @@ import React from 'react';
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
+//import GenreButton from './GenreButton';
+import DashboardMovieRow from './DashboardMovieRow';
 import { Table, Tag, Space } from 'antd';
-import moment from 'moment';
 
 const columns = [
   {
@@ -11,63 +12,44 @@ const columns = [
     dataIndex: 'state',
     key: 'state',
     sorter: (a, b) => a.state.localeCompare(b.state),
-    render: (text, record) => <a href={"/" + record.state} >{text}</a>,
+    //TODO: insert a link and have another route to render a new page
+    render: text => <a href="/recommendations">{text}</a>,
   },
   {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
-    render: text => moment(text).format("MM-DD-YYYY"),
+    //TODO: change date format
   },
   {
     title: 'Cases',
-    dataIndex: 'cases',
-    key: 'cases',
-    sorter: (a, b) => a.cases - b.cases,
+    dataIndex: 'MAX(cases)',
+    key: 'MAX(cases)',
+    //TODO: rename column in the query in the router
+    //sorter: (a, b) => a.MAX(cases) - b.MAX(cases),
   },
 ];
-const countyColumns = [
-  {
-    title: 'County',
-    dataIndex: 'county',
-    key: 'county',
-    sorter: (a, b) => a.state.localeCompare(b.state),
-  },
-  {
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date',
-    render: text => moment(text).format("MM-DD-YYYY"),
-  },
-  {
-    title: 'Cases',
-    dataIndex: 'cases',
-    key: 'cases',
-    sorter: (a, b) => a.cases - b.cases,
-  },
-  {
-    title: 'Deaths',
-    dataIndex: 'deaths',
-    key: 'deaths',
-    sorter: (a, b) => a.deaths - b.deaths,
-  },
-];
+
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    // The state maintained by this React Component.
+
+    // The state maintained by this React Component. This component maintains the list of genres,
+    // and a list of movies for a specified genre.
     this.state = {
-      selectedState: "",
-      rows: [],
-      countyRows: []
+      genres: [],
+      movies: []
     }
+
+    //this.showMovies = this.showMovies.bind(this);
   }
 
-  /* ---- Q1b (Dashboard) ---- */
 
+  /* ---- Q1b (Dashboard) ---- */
+  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
   componentDidMount() {
-    fetch("http://localhost:8081/worstday/",
+    fetch("http://localhost:8081/genres/",
       {
         method: 'GET' // The type of HTTP request.
       }).then(res => {
@@ -81,34 +63,12 @@ export default class Dashboard extends React.Component {
         //let topListDivs = JSON.parse(JSON.stringify(topList));
         console.log(topList);
         this.setState({
-          rows: topList
+          movies: topList
         });
       }, err => {
         // Print the error if there is one.
         console.log(err);
       });
-    if (this.props.state != null) {
-      fetch("http://localhost:8081/worstday/" + this.props.state,
-      {
-        method: 'GET' // The type of HTTP request.
-      }).then(res => {
-        // Convert the response data to a JSON.
-        return res.json();
-        //console.log(res);
-      }, err => {
-        // Print the error if there is one.
-        console.log(err);
-      }).then(topList => {
-        //let topListDivs = JSON.parse(JSON.stringify(topList));
-        console.log(topList);
-        this.setState({
-          countyRows: topList
-        });
-      }, err => {
-        // Print the error if there is one.
-        console.log(err);
-      });
-    }
   }
 
   render() {
@@ -121,23 +81,25 @@ export default class Dashboard extends React.Component {
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Worst Covid Day Per State</div>
+            <div className="genres-container">
+              {this.state.genres}
+            </div>
           </div>
 
           <br></br>
           <div className="jumbotron">
             <div className="movies-container">
-              <Table columns={columns} dataSource={this.state.rows} />
+              <Table columns={columns} dataSource={this.state.movies} />
+              <div className="movies-header">
+                <div className="header-lg"><strong>State</strong></div>
+                <div className="header"><strong>Date</strong></div>
+                <div className="header"><strong>Number of Cases</strong></div>
+              </div>
+              <div className="results-container" id="results">
+              </div>
             </div>
-          </div>          
-        </div>
-        <br></br>
-        <hr></hr>
-        {this.props.state && <div className="jumbotron">
-          <div className="h5">
-            {this.props.state}
-            <Table columns={countyColumns} dataSource={this.state.countyRows} />
           </div>
-        </div>}
+        </div>
       </div>
     );
   }
