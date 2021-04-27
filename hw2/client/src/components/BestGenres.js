@@ -92,7 +92,7 @@ export default class TopN extends React.Component {
 	handleStateChange(value) {
 		console.log(value);
 		this.setState({
-			unemp: value
+			state: value
 		});
 	}
 
@@ -141,9 +141,8 @@ export default class TopN extends React.Component {
 
 				<div className="container recommendations-container">
 					<div className="jumbotron">
-						<div className="h5">Death Stats</div>
+						<div className="h5">Average Cases Per Day in The Most Educated Counties</div>
 						<br></br>
-						<div className="h6">Counties with lowest death with filters</div>
 						<div className="input-container">
 							<div className="h6">State </div>
 							<Select
@@ -205,17 +204,19 @@ export default class TopN extends React.Component {
 								<Option value="PR">PR</Option>
       						</Select>
 							<div className="h6">Education Level</div>
-							<Select defaultValue="Percent_of_adults_with_a_high_school_diploma_only_2014_18" style={{ width: 120 }} onChange={this.handleDegreeChange}>
+							<Select defaultValue="Percent_of_adults_with_a_high_school_diploma_only_2014_18" style={{ width: 240 }} onChange={this.handleDegreeChange}>
 								<Option value="Percent_of_adults_with_less_than_a_high_school_diploma_2014_18">Less than high school diploma</Option>
 								<Option value="Percent_of_adults_with_a_high_school_diploma_only_2014_18">High school diploma only</Option>
       							<Option value="Percent_of_adults_comp_some_college_or_associates_degree_2014_18">Some college or associates degree</Option>
-								<Option value="Percent_of_adults_with a bachelors_degree_or_higher_2014_18">Bachelor's degree or higher</Option>
+								<Option value="Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18">Bachelor's degree or higher</Option>
 							</Select>
 							<div className="h6">Number of results to show</div>
 							<InputNumber min={1} max={1000} defaultValue={15} onChange={this.handleTopNChange} />
 							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
+						<br></br>
 						<div className="header-container">
+							<div className="h5">Counties with Highest Education</div>
 							<Table columns={columns} dataSource={this.state.ret} />
 						</div>
 						<div className="results-container" id="results">
