@@ -107,21 +107,27 @@ function getStateCounty(req, res) {
 }
 
 /* ---- Q3 (Best Genres) ---- */
-function bestGenresPerDecade(req, res) {
-  var input = req.params.decade;
+function mostEducated(req, res) {
+  var degree = req.params.degree;
+  var state = req.params.state;
+  var topn = req.params.topn
   console.log(input);
   var query = `
-  WITH Temp AS (SELECT id, (FLOOR(release_year/10)*10) AS decade FROM Movies),
-Temp2 AS (SELECT DISTINCT genre FROM Genres)
-SELECT Temp2.genre, IFNULL(avg_rating, 0) AS avg_rating
-FROM (SELECT genre, AVG(rating) AS avg_rating
-FROM Movies
-JOIN Temp ON Temp.id=Movies.id
-JOIN Genres ON Genres.movie_id=Movies.id
-WHERE Temp.decade='${input}'
-GROUP BY genre) F
-RIGHT JOIN Temp2 ON Temp2.genre=F.genre
-ORDER BY avg_rating DESC, genre ASC;
+  WITH avgCases AS(
+    SELECT fips, county, AVG(cases) AS casesPerDay
+    FROM covid19Cases
+    GROUP BY fips
+    ),
+    stats AS(
+    SELECT *
+    FROM avgCases a JOIN UnEmployement u ON a.fips = u.FIPS_TXT
+      JOIN Education e ON a.fips = e.FIPS_CODE
+    )
+    SELECT county, state, casesPerDay, UnEmployed_2019, '${degree}'AS degree
+    FROM stats s JOIN county c ON s.fips = c.FIPS_TXT
+    WHERE state = '${state}'
+    ORDER BY degree DESC
+    LIMIT '${topn}';
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -215,7 +221,7 @@ module.exports = {
   getWorstDay: getWorstDay,
   getRecs: getRecs,
   getStateCounty: getStateCounty,
-  bestGenresPerDecade: bestGenresPerDecade,
+  mostEducated: mostEducated,
   getUnderprivileged: getUnderprivileged,
   getTopN: getTopN
 }

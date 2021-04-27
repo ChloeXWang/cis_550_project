@@ -42,7 +42,7 @@ app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
 /* ---- (Best Genre) ---- */
-//app.get('/decades', routes.getDecades);
+app.get('/bestgenres/:degree/:state/:topn', routes.mostEducated);
 
 
 
@@ -50,7 +50,7 @@ app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
 /* ---- Q3b (Best Genre) ---- */
-app.get('/decades/:decade', routes.bestGenresPerDecade);
+//app.get('/decades/:decade', routes.bestGenresPerDecade);
 
 
 /* ---- Query 4 ---- */
