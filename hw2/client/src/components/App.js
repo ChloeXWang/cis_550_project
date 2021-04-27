@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
-import BestGenres from './BestGenres';
+import MostEducated from './MostEducated';
 import TopN from './TopN';
 import { OmitProps } from 'antd/lib/transfer/ListBody';
 
@@ -44,9 +44,9 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/bestgenres"
+							path="/mosteducated"
 							render={() => (
-								<BestGenres />
+								<MostEducated />
 							)}
 						/>
 						<Route
