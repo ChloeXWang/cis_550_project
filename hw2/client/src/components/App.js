@@ -25,6 +25,12 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
+							path="/test"
+							render={() => (
+								<TopN />
+							)}
+						/>
+						<Route
 							exact
 							path="/:state"
 							render={(props) => (
@@ -48,12 +54,6 @@ export default class App extends React.Component {
 							path="/bestgenres"
 							render={() => (
 								<BestGenres />
-							)}
-						/>
-						<Route
-							path="/test"
-							render={() => (
-								<TopN />
 							)}
 						/>
 					</Switch>
