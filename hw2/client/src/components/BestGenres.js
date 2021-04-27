@@ -92,8 +92,7 @@ export default class TopN extends React.Component {
 
 	/* ---- Q2 (Recommendations) ---- */
 	submitMovie() {
-		///bestgenres/:degree/:state/:topn
-		fetch("http://localhost:8081/bestgenres" + "/" + this.state.degree +
+		fetch("http://localhost:8081/mosteducated" + "/" + this.state.degree +
 			"/" + this.state.state + "/" + this.state.topn,
 			{
 				method: 'GET' // The type of HTTP request.

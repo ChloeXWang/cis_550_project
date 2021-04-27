@@ -42,7 +42,7 @@ app.get('/recommendations/:recc/:percent', routes.getRecs);
 
 
 /* ---- (Best Genre) ---- */
-app.get('/bestgenres/:degree/:state/:topn', routes.mostEducated);
+app.get('/mosteducated/:degree/:state/:topn', routes.mostEducated);
 
 
 
