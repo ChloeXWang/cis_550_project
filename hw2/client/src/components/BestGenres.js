@@ -2,10 +2,8 @@ import React from 'react';
 import PageNavbar from './PageNavbar';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import moment from 'moment';
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 import { Select } from 'antd';
 import { InputNumber } from 'antd';
 
@@ -51,16 +49,6 @@ const columns = [
 ];
 
 const { Option } = Select;
-
-function onBlur() {
-	console.log('blur');
-}
-function onFocus() {
-	console.log('focus');
-}
-function onSearch(val) {
-	console.log('search:', val);
-}
 
 export default class TopN extends React.Component {
 	constructor(props) {
@@ -147,7 +135,6 @@ export default class TopN extends React.Component {
 							<div className="h6">State </div>
 							<Select
         						placeholder="State"
-								onBlur={onBlur}
         						onChange={this.handleStateChange}
       							>
         						<Option value="AL">AL</Option>
