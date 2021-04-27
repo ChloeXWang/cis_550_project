@@ -243,8 +243,6 @@ module.exports = {
   getAllGenres: getAllGenres,
   getWorstDay: getWorstDay,
   getRecs: getRecs,
-  getTopInGenre: getTopInGenre,
-  getDecades: getDecades,
   getStateCounty: getStateCounty,
   getStates: getStates,
   mostEducated: mostEducated,

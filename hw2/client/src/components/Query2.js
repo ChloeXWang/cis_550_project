@@ -121,7 +121,7 @@ export default class Query2 extends React.Component {
 
 	/* ---- Q2 (Recommendations) ---- */
 	submitMovie() {
-		fetch("http://localhost:8081/recommendations" + "/" + this.state.movieName + "/" + this.state.percent,
+		fetch("http://localhost:8081/query2" + "/" + this.state.movieName + "/" + this.state.percent,
 			//new URLSearchParams({
 			//	recc: this.state.movieName,
 			//	percent: this.state.percent,
@@ -157,7 +157,7 @@ export default class Query2 extends React.Component {
 
 	//}
     getRecords(){
-        fetch("http://localhost:8081/recommendations" + "/" + this.state.topCountries,
+        fetch("http://localhost:8081/query2" + "/" + this.state.topCountries,
 			//new URLSearchParams({
 			//	recc: this.state.movieName,
 			//	percent: this.state.percent,
@@ -232,7 +232,7 @@ export default class Query2 extends React.Component {
 						</div>
 						<div className="h5">Infection and Death Stats for Underprivileged Counties </div>
 						<br></br>
-						<div className="h6">What is the infection rate and death rate in the underprivileged counties (e.g. poverty rate>30%) in a particular day (e.g. 2020-12-01)?</div>
+						<div className="h6">What is the infection rate and death rate in the underprivileged counties (e.g. poverty rate &gt 30%) in a particular day (e.g. 2020-12-01)?</div>
 						<div className="h6">Enter a date between Dec 2020 and Feb 2021.</div>
 						<div className="input-container">
 							<Space direction="vertical">
