@@ -230,7 +230,7 @@ export default class Query2 extends React.Component {
 						<h6>Unemployment rate {UnemploymentRate}</h6>
                         <Slider  max={10} step={0.1}  onChange={this.handleUnemploymentRate} />
 						</div>
-						<div className="h5">Infection and Death Stats for Underpreviliged Counties </div>
+						<div className="h5">Infection and Death Stats for Underprivileged Counties </div>
 						<br></br>
 						<div className="h6">What is the infection rate and death rate in the underprivileged counties (e.g. poverty rate>30%) in a particular day (e.g. 2020-12-01)?</div>
 						<div className="h6">Enter a date between Dec 2020 and Feb 2021.</div>
