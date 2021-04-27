@@ -50,7 +50,7 @@ app.get('/bestgenres/:degree/:state/:topn', routes.mostEducated);
 
 
 /* ---- Q3b (Best Genre) ---- */
-//app.get('/decades/:decade', routes.bestGenresPerDecade);
+//app.get('/mostEducated', routes.getStates);
 
 
 /* ---- Query 4 ---- */

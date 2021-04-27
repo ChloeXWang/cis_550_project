@@ -95,7 +95,21 @@ function getStateCounty(req, res) {
     SELECT county, MAX(date) AS date, MAX(Cases) AS cases, MAX(deaths) AS deaths
     FROM stateCases
     GROUP BY county
-    ORDER BY cases DESC
+    ORDER BY cases DESC;
+  `;
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+}
+
+function getStates(req, res) {
+  var query = `
+    SELECT DISTINCT STATE AS state
+    FROM county;
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -111,7 +125,6 @@ function mostEducated(req, res) {
   var degree = req.params.degree;
   var state = req.params.state;
   var topn = req.params.topn
-  console.log(input);
   var query = `
   WITH avgCases AS(
     SELECT fips, county, AVG(cases) AS casesPerDay
@@ -123,11 +136,11 @@ function mostEducated(req, res) {
     FROM avgCases a JOIN UnEmployement u ON a.fips = u.FIPS_TXT
       JOIN Education e ON a.fips = e.FIPS_CODE
     )
-    SELECT county, state, casesPerDay, UnEmployed_2019, '${degree}'AS degree
+    SELECT county, state, casesPerDay, UnEmployed_2019, ${degree} AS degree
     FROM stats s JOIN county c ON s.fips = c.FIPS_TXT
     WHERE state = '${state}'
     ORDER BY degree DESC
-    LIMIT '${topn}';
+    LIMIT ${topn};
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -221,6 +234,7 @@ module.exports = {
   getWorstDay: getWorstDay,
   getRecs: getRecs,
   getStateCounty: getStateCounty,
+  getStates: getStates,
   mostEducated: mostEducated,
   getUnderprivileged: getUnderprivileged,
   getTopN: getTopN
