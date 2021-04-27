@@ -164,7 +164,7 @@ function mostEducated(req, res) {
 function getUnderprivileged(req, res) {
   console.log(req);
   var input_date = req.params.date;
-  console.log(input_recc);
+  console.log(input_date);
   var input_percent = req.params.percent;
   console.log(input_percent);
   var query = `
@@ -173,7 +173,7 @@ function getUnderprivileged(req, res) {
     FROM PovertyEstimates
     WHERE PovertyEstimates.PCTPOVALL_2019 > '${input_percent}'
     )
-    SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
+    SELECT cases.county, cases.state as state, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
     FROM cases
     RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
     RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
@@ -209,7 +209,7 @@ function getTopN(req, res) {
     ),
     countyDeaths AS (
     SELECT fips, SUM(deaths) AS allDeaths
-    FROM covid19Cases
+    FROM cases
     GROUP BY fips
     )
     SELECT Area_Name as county, STATE as state, allDeaths, pop, degree, unemp

@@ -18,7 +18,15 @@ const columns = [
 		key: 'county',
 		sorter: (a, b) => a.county.localeCompare(b.county),
 		//TODO: insert a link and have another route to render a new page
-		render: text => <a href="/recommendations">{text}</a>,
+		render: text => <a>{text}</a>,
+	},
+	{
+		title: 'State',
+		dataIndex: 'state',
+		key: 'state',
+		sorter: (a, b) => a.county.localeCompare(b.county),
+		//TODO: insert a link and have another route to render a new page
+		render: text => <a href="/worst_day">{text}</a>,
 	},
 	{
 		title: 'Infection Rate',
