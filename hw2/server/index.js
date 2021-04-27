@@ -50,17 +50,15 @@ app.get('/mosteducated/:degree/:state/:topn', routes.mostEducated);
 
 
 
-
-
-
 /* ---- Q3b (Best Genre) ---- */
 //app.get('/mostEducated', routes.getStates);
 
 
-/* ---- Query 4 ---- */
-app.get('/test/:degree/:unemp/:pop/:topn', routes.getTopN);
+/* ---- Lowest Death ---- */
+app.get('/lowest_death/:degree/:unemp/:pop/:topn', routes.getTopN);
 
-
+/* ---- Underpriveleged Day ---- */
+app.get('/underprivileged_day/:date/:percent', routes.getUnderprivileged);
 
 
 

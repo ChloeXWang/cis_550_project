@@ -57,12 +57,12 @@ function getWorstDay(req, res) {
 
 /* ---- Q2 (Recommendations) ---- */
 function getRecs(req, res) {
-    console.log(req);
-    var input_recc = req.params.recc;
-    console.log(input_recc);
-    var input_percent = req.params.percent;
-    console.log(input_percent);
-    var query = `
+  console.log(req);
+  var input_recc = req.params.recc;
+  console.log(input_recc);
+  var input_percent = req.params.percent;
+  console.log(input_percent);
+  var query = `
     WITH underprivileged AS(
       SELECT PovertyEstimates.FIPS_TXT
       FROM PovertyEstimates
@@ -83,13 +83,13 @@ function getRecs(req, res) {
         RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
         WHERE cases.date='${input_recc}'LIMIT 80;
       `;
-    connection.query(query, function(err, rows, fields) {
-        if (err) console.log(err);
-        else {
-            console.log(rows);
-            res.json(rows);
-        }
-    });
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
 };
 
 
@@ -162,18 +162,23 @@ function mostEducated(req, res) {
 };
 
 function getUnderprivileged(req, res) {
+  console.log(req);
+  var input_date = req.params.date;
+  console.log(input_recc);
+  var input_percent = req.params.percent;
+  console.log(input_percent);
   var query = `
   WITH underprivileged AS(
     SELECT PovertyEstimates.FIPS_TXT
     FROM PovertyEstimates
-    WHERE PovertyEstimates.PCTPOVALL_2019 > 30
+    WHERE PovertyEstimates.PCTPOVALL_2019 > '${input_percent}'
     )
     SELECT cases.county, (cases/POP_ESTIMATE_2019) AS infection_rate, (deaths/POP_ESTIMATE_2019) AS death_rate
     FROM cases
     RIGHT JOIN underprivileged ON cases.fips=underprivileged.FIPS_TXT
     RIGHT JOIN PopulationEstimates ON underprivileged.FIPS_TXT=PopulationEstimates.FIPS_TXT
-    WHERE cases.date='2020-12-01';
-  `;
+    WHERE cases.date='${input_date}';
+    `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
     else {
@@ -193,23 +198,6 @@ function getTopN(req, res) {
   var input_pop = req.params.pop;
   var input_topn = req.params.topn;
   //console.log(input_percent);
-  var query = `
-  WITH eligibleCounties AS (
-    SELECT u.FIPS_TXT AS ecounties, UnEmployement_Rate_2019, p.POP_ESTIMATE_2019
-    FROM UnEmployement u JOIN PopulationEstimates p ON u.FIPS_TXT=p.FIPS_TXT
-    WHERE UnEmployement_Rate_2019 < '${input_unemp}' AND POP_ESTIMATE_2019 > '${input_pop}'
-    ),
-    countyDeaths AS (
-    SELECT fips, SUM(deaths) AS allDeaths
-    FROM covid19Cases
-    GROUP BY fips
-    )
-    SELECT fips, allDeaths, Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18
-    FROM eligibleCounties e JOIN countyDeaths c ON e.ecounties = c.fips
-      JOIN Education ON e.ecounties = Education.FIPS_CODE
-      ORDER BY allDeaths
-      LIMIT '${input_topn}';
-    `;
   var query = `
   WITH eligibleCounties AS (
     SELECT u.FIPS_TXT AS ecounties, UnEmployement_Rate_2019 as unemp, p.POP_ESTIMATE_2019 as pop, e.Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18 as degree

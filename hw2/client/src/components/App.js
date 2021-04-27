@@ -1,13 +1,13 @@
-	import React from 'react';
+import React from 'react';
 import {
 	BrowserRouter as Router,
 	Route,
 	Switch
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import Recommendations from './Recommendations';
+import UnderprivelegedDay from './UnderprivelegedDay';
 import MostEducated from './MostEducated';
-import TopN from './TopN';
+import LowestDeath from './LowestDeath';
 import Query2 from './Query2'
 import { OmitProps } from 'antd/lib/transfer/ListBody';
 export default class App extends React.Component {
@@ -20,13 +20,13 @@ export default class App extends React.Component {
 							exact
 							path="/"
 							render={() => (
-								<Dashboard/>
+								<Dashboard />
 							)}
 						/>
 						<Route
 							path="/lowest_death"
 							render={() => (
-								<TopN />
+								<LowestDeath />
 							)}
 						/>
 						<Route
@@ -44,9 +44,9 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/underpriveleged_day"
+							path="/underprivileged_day"
 							render={() => (
-								<Recommendations />
+								<UnderprivelegedDay />
 							)}
 						/>
 						<Route
@@ -59,10 +59,10 @@ export default class App extends React.Component {
 							exact
 							path="/:state"
 							render={(props) => (
-								<Dashboard state = {props.match.params.state}/>
+								<Dashboard state={props.match.params.state} />
 							)}
 						/>
-						
+
 					</Switch>
 				</Router>
 			</div>

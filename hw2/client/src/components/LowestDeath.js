@@ -15,19 +15,17 @@ const columns = [
 		title: 'County',
 		dataIndex: 'county',
 		key: 'county',
-		//sorter: (a, b) => a.fips - b.fips,
 		sorter: (a, b) => a.county.localeCompare(b.county),
-		//TODO: insert a link and have another route to render a new page
-		render: text => <a href="/recommendations">{text}</a>,
+		render: text => <a>{text}</a>,
+		//render: (text, record) => <a href={"/" + record.state} >{text}</a>,
 	},
 	{
 		title: 'State',
 		dataIndex: 'state',
 		key: 'state',
-		//sorter: (a, b) => a.fips - b.fips,
 		sorter: (a, b) => a.state.localeCompare(b.state),
 		//TODO: insert a link and have another route to render a new page
-		render: text => <a href="/recommendations">{text}</a>,
+		render: text => <a href="/worst_day">{text}</a>,
 	},
 	{
 		title: 'Death Toll',
@@ -57,7 +55,7 @@ const columns = [
 ];
 
 
-export default class TopN extends React.Component {
+export default class LowestDeath extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -107,7 +105,7 @@ export default class TopN extends React.Component {
 	/* ---- Q2 (Recommendations) ---- */
 	submitMovie() {
 		///test/:degree/:unemp/:pop/:topn
-		fetch("http://localhost:8081/test" + "/" + this.state.degree +
+		fetch("http://localhost:8081/lowest_death" + "/" + this.state.degree +
 			"/" + this.state.unemp + "/" + this.state.pop + "/" + this.state.topn,
 			{
 				method: 'GET' // The type of HTTP request.
