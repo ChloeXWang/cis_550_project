@@ -24,7 +24,7 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/Query4"
+							path="/lowestdeath"
 							render={() => (
 								<TopN />
 							)}
