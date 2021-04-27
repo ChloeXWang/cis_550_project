@@ -4,10 +4,10 @@ import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import { Table, Tag } from 'antd';
-import { Slider } from 'antd';
+import { Select } from 'antd';
+import { InputNumber } from 'antd';
 
 //fips, allDeaths, Percent_of_adults_with_a_bachelors_degree_or_higher_2014_18
 const columns = [
@@ -50,6 +50,17 @@ const columns = [
 	}
 ];
 
+const { Option } = Select;
+
+function onBlur() {
+	console.log('blur');
+}
+function onFocus() {
+	console.log('focus');
+}
+function onSearch(val) {
+	console.log('search:', val);
+}
 
 export default class TopN extends React.Component {
 	constructor(props) {
@@ -62,7 +73,8 @@ export default class TopN extends React.Component {
 			degree: "Percent_of_adults_with_a_high_school_diploma_only_2014_18",
 			state: "PA",
 			topn: 15,
-			ret: []
+			ret: [],
+			stateList: []
 		}
 
 		this.handleDegreeChange = this.handleDegreeChange.bind(this);
@@ -121,9 +133,8 @@ export default class TopN extends React.Component {
 	//submitMovie() {
 
 	//}
-
 	render() {
-
+		const options = this.state.stateList.map(d => <Option key={d.state}>{d.state}</Option>);
 		return (
 			<div className="Recommendations">
 				<PageNavbar active="recommendations" />
@@ -134,12 +145,74 @@ export default class TopN extends React.Component {
 						<br></br>
 						<div className="h6">Counties with lowest death with filters</div>
 						<div className="input-container">
-							<div className="h6">Population greater than </div>
-							<Slider min={1} max={10000000} defaultValue={this.state.pop} onChange={this.handlePopChange} />
-							<div className="h6">Education (% With Bachelor's or Higher) greater than </div>
-							<Slider min={0} max={100} defaultValue={this.state.degree} onChange={this.handleDegreeChange} />
-							<div className="h6">Unemployment rate (%) less than</div>
-							<Slider min={0} max={100} defaultValue={this.state.unemp} onChange={this.handleUnempChange} />
+							<div className="h6">State </div>
+							<Select
+        						placeholder="State"
+								onBlur={onBlur}
+        						onChange={this.handleStateChange}
+      							>
+        						<Option value="AL">AL</Option>
+								<Option value="AK">AK</Option>
+								<Option value="AZ">AZ</Option>
+								<Option value="AR">AR</Option>
+								<Option value="CA">CA</Option>
+								<Option value="CO">CO</Option>
+								<Option value="CT">CT</Option>
+								<Option value="DE">DE</Option>
+								<Option value="DC">DC</Option>
+								<Option value="FL">FL</Option>
+								<Option value="GA">GA</Option>
+								<Option value="HI">HI</Option>
+								<Option value="ID">ID</Option>
+								<Option value="IL">IL</Option>
+								<Option value="IN">IN</Option>
+								<Option value="IA">IA</Option>
+								<Option value="KS">KS</Option>
+								<Option value="KY">KY</Option>
+								<Option value="LA">LA</Option>
+								<Option value="ME">ME</Option>
+								<Option value="MD">MD</Option>
+								<Option value="MA">MA</Option>
+								<Option value="MI">MI</Option>
+								<Option value="MN">MN</Option>
+								<Option value="MS">MS</Option>
+								<Option value="MO">MO</Option>
+								<Option value="MT">MT</Option>
+								<Option value="NE">NE</Option>
+								<Option value="NV">NV</Option>
+								<Option value="NH">NH</Option>
+								<Option value="NJ">NJ</Option>
+								<Option value="NM">NM</Option>
+								<Option value="NY">NY</Option>
+								<Option value="NC">NC</Option>
+								<Option value="ND">ND</Option>
+								<Option value="OH">OH</Option>
+								<Option value="OK">OK</Option>
+								<Option value="OR">OR</Option>
+								<Option value="PA">PA</Option>
+								<Option value="RI">RI</Option>
+								<Option value="SC">SC</Option>
+								<Option value="SD">SD</Option>
+								<Option value="TN">TN</Option>
+								<Option value="TX">TX</Option>
+								<Option value="UT">UT</Option>
+								<Option value="VT">VT</Option>
+								<Option value="VA">VA</Option>
+								<Option value="WA">WA</Option>
+								<Option value="WV">WV</Option>
+								<Option value="WI">WI</Option>
+								<Option value="WY">WY</Option>
+								<Option value="PR">PR</Option>
+      						</Select>
+							<div className="h6">Education Level</div>
+							<Select defaultValue="Percent_of_adults_with_a_high_school_diploma_only_2014_18" style={{ width: 120 }} onChange={this.handleDegreeChange}>
+								<Option value="Percent_of_adults_with_less_than_a_high_school_diploma_2014_18">Less than high school diploma</Option>
+								<Option value="Percent_of_adults_with_a_high_school_diploma_only_2014_18">High school diploma only</Option>
+      							<Option value="Percent_of_adults_comp_some_college_or_associates_degree_2014_18">Some college or associates degree</Option>
+								<Option value="Percent_of_adults_with a bachelors_degree_or_higher_2014_18">Bachelor's degree or higher</Option>
+							</Select>
+							<div className="h6">Number of results to show</div>
+							<InputNumber min={1} max={1000} defaultValue={15} onChange={this.handleTopNChange} />
 							<button id="submitMovieBtn" className="submit-btn" onClick={this.submitMovie}>Submit</button>
 						</div>
 						<div className="header-container">
