@@ -1,4 +1,4 @@
-import React from 'react';
+	import React from 'react';
 import {
 	BrowserRouter as Router,
 	Route,
@@ -8,10 +8,9 @@ import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import MostEducated from './MostEducated';
 import TopN from './TopN';
+import Query2 from './Query2'
 import { OmitProps } from 'antd/lib/transfer/ListBody';
-
 export default class App extends React.Component {
-
 	render() {
 		return (
 			<div className="App">
@@ -25,20 +24,27 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/test"
+							path="/Query4"
 							render={() => (
 								<TopN />
 							)}
 						/>
 						<Route
 							exact
-							path="/dashboard"
+							path="/worstday"
 							render={() => (
 								<Dashboard />
 							)}
 						/>
 						<Route
-							path="/recommendations"
+							path="/underprivilegedinfection"
+							render={() => (
+								<Query2 />
+								// <Recommendations />
+							)}
+						/>
+						<Route
+							path="/underprivelegedday"
 							render={() => (
 								<Recommendations />
 							)}
@@ -56,6 +62,7 @@ export default class App extends React.Component {
 								<Dashboard state = {props.match.params.state}/>
 							)}
 						/>
+						
 					</Switch>
 				</Router>
 			</div>
