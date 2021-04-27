@@ -24,33 +24,33 @@ export default class App extends React.Component {
 							)}
 						/>
 						<Route
-							path="/lowestdeath"
+							path="/lowest_death"
 							render={() => (
 								<TopN />
 							)}
 						/>
 						<Route
 							exact
-							path="/worstday"
+							path="/worst_day"
 							render={() => (
 								<Dashboard />
 							)}
 						/>
 						<Route
-							path="/underprivilegedinfection"
+							path="/underprivileged_infection"
 							render={() => (
 								<Query2 />
 								// <Recommendations />
 							)}
 						/>
 						<Route
-							path="/underprivelegedday"
+							path="/underpriveleged_day"
 							render={() => (
 								<Recommendations />
 							)}
 						/>
 						<Route
-							path="/mosteducated"
+							path="/most_educated"
 							render={() => (
 								<MostEducated />
 							)}

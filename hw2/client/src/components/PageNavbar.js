@@ -23,7 +23,7 @@ export default  class PageNavbar extends React.Component {
 
   render() {
 	// const pageList = ['dashboard', 'recommendations', 'bestgenres',"query2"];
-	const pageList = ['worstday', 'underprivilegedinfection', 'underprivelegedday', 'lowestdeath', 'mosteducated'];
+	const pageList = ['worst_day', 'underprivileged_infection', 'underpriveleged_day', 'lowest_death', 'most_educated'];
 
     const { current } = this.state;
     return (
