@@ -32,13 +32,6 @@ export default class App extends React.Component {
 						/>
 						<Route
 							exact
-							path="/:state"
-							render={(props) => (
-								<Dashboard state = {props.match.params.state}/>
-							)}
-						/>
-						<Route
-							exact
 							path="/dashboard"
 							render={() => (
 								<Dashboard />
@@ -54,6 +47,13 @@ export default class App extends React.Component {
 							path="/bestgenres"
 							render={() => (
 								<BestGenres />
+							)}
+						/>
+						<Route
+							exact
+							path="/:state"
+							render={(props) => (
+								<Dashboard state = {props.match.params.state}/>
 							)}
 						/>
 					</Switch>
