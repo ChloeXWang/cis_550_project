@@ -79,8 +79,8 @@ export default class Query2 extends React.Component {
 			percent: 30,
 			recMovies: [],
 			recFilter:[],
-            topCountries:0,
-			UnemploymentRate:0
+            topCountries:10,
+			UnemploymentRate:3
 		}
 
 		this.handleMovieNameChange = this.handleMovieNameChange.bind(this);
@@ -224,15 +224,15 @@ export default class Query2 extends React.Component {
 					<div className="jumbotron">
 						<div>
 						<h6>Top {topCountries} Most Affected Counties </h6>
-                        <Slider   onChange={this.handleChange} />
+                        <Slider defaultValue={this.state.topCountries} onChange={this.handleChange} />
 						</div>
 						<div>
 						<h6>Unemployment rate {UnemploymentRate}</h6>
-                        <Slider  max={10} step={0.1}  onChange={this.handleUnemploymentRate} />
+                        <Slider  max={10} step={0.1}  defaultValue={this.state.UnemploymentRate} onChange={this.handleUnemploymentRate} />
 						</div>
 						<div className="h5">Infection and Death Stats for Underprivileged Counties </div>
 						<br></br>
-						<div className="h6">What is the infection rate and death rate in the underprivileged counties (e.g. poverty rate &gt 30%) in a particular day (e.g. 2020-12-01)?</div>
+						<div className="h6">What is the infection rate and death rate in the underprivileged counties (e.g. poverty rate &gt; 30%) in a particular day (e.g. 2020-12-01)?</div>
 						<div className="h6">Enter a date between Dec 2020 and Feb 2021.</div>
 						<div className="input-container">
 							<Space direction="vertical">
