@@ -134,6 +134,7 @@ export default class TopN extends React.Component {
 							<div className="h6">State </div>
 							<Select
         						placeholder="State"
+								defaultValue={this.state.state}
         						onChange={this.handleStateChange}
       							>
         						<Option value="AL">AL</Option>
