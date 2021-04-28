@@ -121,6 +121,7 @@ export default class Dashboard extends React.Component {
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Worst Covid Day Per State</div>
+            <div className="h6">Click on a state name to view counties within that state</div>
           </div>
 
           <br></br>
