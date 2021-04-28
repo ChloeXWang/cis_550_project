@@ -43,7 +43,7 @@ const columns = [
     sorter: (a, b) => a.totalCases - b.totalCases,
   },
   {
-    title: 'UnEmplyement Rate',
+    title: 'Unemployment Rate',
     dataIndex: 'UnEmployement_Rate_2019',
     key: 'UnEmployement_Rate_2019',
     //TODO: rename column in the query in the router
