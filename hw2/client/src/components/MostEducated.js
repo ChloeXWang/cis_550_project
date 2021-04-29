@@ -15,8 +15,6 @@ const columns = [
 		key: 'county',
 		//sorter: (a, b) => a.fips - b.fips,
 		sorter: (a, b) => a.county.localeCompare(b.county),
-		//TODO: insert a link and have another route to render a new page
-		render: text => <a href="/recommendations">{text}</a>,
 	},
 	{
 		title: 'State',
@@ -24,8 +22,6 @@ const columns = [
 		key: 'state',
 		//sorter: (a, b) => a.fips - b.fips,
 		sorter: (a, b) => a.state.localeCompare(b.state),
-		//TODO: insert a link and have another route to render a new page
-		render: text => <a href="/recommendations">{text}</a>,
 	},
 	{
 		title: 'Cases Per Day',
